@@ -12,7 +12,46 @@ namespace BasgruppsInlamning
         {
           
         }
-        
+
+
+        public bool LoggIn()
+        {
+            string passWord = "Götebuggarna";
+            int loggInTries = 2;
+            bool correctPassword = false;
+
+            Console.WriteLine("Välkommen till programmet Basgruppsinformation");
+            do
+            {
+                Console.WriteLine("Var god skriv in ditt lösenord");
+                string userAnswer = Console.ReadLine();
+                if (userAnswer == passWord)
+                {
+                    correctPassword = true;
+                    loggInTries = -1;
+                    Console.Clear();
+                }
+                else if (loggInTries > 0)
+                {
+                    Console.WriteLine($"Du har uppgivet ett felaktigt lösenord. {loggInTries} försök återstår");
+                    loggInTries--;
+                    correctPassword = false;
+                }
+                else
+                {
+                    Console.WriteLine("Du har uppgett fel lösenord för många gånger. Basgruppen \"Götebuggarna\" kommer nu hemsöka dig. Du är förvisad ifrån min konsol.");
+                    correctPassword = false;
+                    break;
+
+                }
+            } while (loggInTries >= 0);
+
+            return correctPassword;
+        }
+
+
+
+
 
         static void AddMembersToList()
 
