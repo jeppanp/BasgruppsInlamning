@@ -125,5 +125,15 @@ namespace BasgruppsInlamning
             groupList.Add(new Human("Yulrok", 38, "23 april", "Musli", "Morcheeba", "The green book", "Ost", "Slöseri", "Tankeöverföring", "Oxen", "Biljett till \"digital nomad\" - livet"));
 
         }
+
+        static void ShowOnlyNames()        //Var god se rapporten för val av Loop. 
+        {
+            for (int i = 0; i < groupList.Count - 1; i++)
+            {
+                Console.Write(groupList[i].Name + ",");
+            }
+            int lastIndex = groupList.Count - 1;
+            Console.WriteLine(groupList[lastIndex].Name);
+        }
     }
 }
