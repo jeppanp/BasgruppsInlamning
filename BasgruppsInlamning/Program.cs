@@ -10,10 +10,18 @@ namespace BasgruppsInlamning
     class Program
     {
         public static List<Human> groupList = new List<Human>();
+
+
         static void Main(string[] args)
         {
+
             Start();
+
         }
+
+
+
+
         static void Start()
         {
             bool keepGoing = true;
@@ -34,7 +42,7 @@ namespace BasgruppsInlamning
                     Console.WriteLine("6. Avsluta");
 
                     bool choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
-                    switch (choice)         
+                    switch (choice)
                     {
                         case 1:
                             Console.Clear();
@@ -157,7 +165,7 @@ namespace BasgruppsInlamning
             do
             {
                 choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
-                if (choiceInBool && choice<=groupList.Count && choice>0)
+                if (choiceInBool && choice <= groupList.Count && choice > 0)
                 {
                     Console.WriteLine($"du valde {groupList[choice - 1].Name}");
                     Console.WriteLine("\n");
@@ -216,14 +224,14 @@ namespace BasgruppsInlamning
                     groupList.RemoveAt(choice - 1);
                     keepGoing = false;
                 }
-                else if (choice ==-1)
-                {       
+                else if (choice == -1)
+                {
                     break;
                 }
-                else if (choice == 0 || choice>groupList.Count)
+                else if (choice == 0 || choice > groupList.Count)
                 {
                     Console.WriteLine("Var god mata in siffan som motsvarar personen du vill ta bort eller \"-1\" om du ångrat dig");
-                    
+
                 }
             } while (keepGoing);
         }
@@ -299,7 +307,7 @@ namespace BasgruppsInlamning
 
                         default:
                             Console.WriteLine("Du ändrade inget");
-                            break;            
+                            break;
                     }
                     keepGoing = false;
                 }
