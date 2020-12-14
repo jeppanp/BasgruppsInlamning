@@ -34,7 +34,7 @@ namespace BasgruppsInlamning
                     Console.WriteLine("6. Avsluta");
 
                     bool choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
-                    switch (choice)        //TODO: felhantering på bokstav ist för nummer gällande case 2, 4, 5, 
+                    switch (choice)        //TODO: felhantering på bokstav ist för nummer gällande case 4, 5, 
                     {
                         case 1:
                             Console.Clear();
@@ -157,7 +157,7 @@ namespace BasgruppsInlamning
             do
             {
                 choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
-                if (choiceInBool && choice<=groupList.Count)
+                if (choiceInBool && choice<=groupList.Count && choice>0)
                 {
                     Console.WriteLine($"du valde {groupList[choice - 1].Name}");
                     Console.WriteLine("\n");
@@ -204,17 +204,31 @@ namespace BasgruppsInlamning
         }
         static void DeleteMember()
         {
-
-            int choice;
-            Console.WriteLine("\nVem har slutat i klassen och bör såldes tas bort?\n");
+            bool keepGoing = true;
+            Console.WriteLine("\nVem har slutat i klassen och bör såldes tas bort?\n Har du ångrat dig och inte vill ta bort någon så skriv in \"-1\"\n");
             IsShowingNamesWithNr();
-            choice = int.Parse(Console.ReadLine());
-            Console.WriteLine($"{groupList[choice - 1].Name} är nu borttagen");
-            groupList.RemoveAt(choice - 1);
-
+            do
+            {
+                bool choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
+                if (choiceInBool && choice <= groupList.Count && choice > 0)
+                {
+                    Console.WriteLine($"{groupList[choice - 1].Name} är nu borttagen");
+                    groupList.RemoveAt(choice - 1);
+                    keepGoing = false;
+                }
+                else if (choice ==-1)
+                {       
+                    break;
+                }
+                else if (choice == 0 || choice>groupList.Count)
+                {
+                    Console.WriteLine("Var god mata in siffan som motsvarar personen du vill ta bort eller \"-1\" om du ångrat dig");
+                    
+                }
+            } while (keepGoing);
         }
 
-        private static void ChangeInformation()
+        static void ChangeInformation()
         {
             Console.WriteLine("\nVem vill du ändra information kring? ");
             IsShowingNamesWithNr();
