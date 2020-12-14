@@ -47,17 +47,17 @@ namespace BasgruppsInlamning
 
                         case 3:
                             Console.Clear();
-                            AddMember();
+                            //AddMember();
                             break;
 
                         case 4:
                             Console.Clear();
-                            DeleteMember();
+                            //DeleteMember();
                             break;
                           
                         case 5:
                             Console.Clear();
-                            ChangeInformation();
+                            //ChangeInformation();
                             break; 
                         case 6:
                             Console.WriteLine("På återseende!");
@@ -134,6 +134,27 @@ namespace BasgruppsInlamning
             }
             int lastIndex = groupList.Count - 1;
             Console.WriteLine(groupList[lastIndex].Name);
+        }
+
+        static void IsShowingNamesWithNr()
+
+        {
+            int counter = 0;
+            foreach(Human members in groupList)
+            {
+                Console.WriteLine($"{++counter}. {members.Name}");
+                
+            }
+        }
+
+        private static void InformationOfMember()
+        {
+            Console.WriteLine("\nVem är du intresserad av att lära känna mer?\n");
+            IsShowingNamesWithNr();
+            bool choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
+            Console.WriteLine($"du valde {groupList[choice - 1].Name}");
+            Console.WriteLine("\n");
+            groupList[choice - 1].Describe();
         }
     }
 }

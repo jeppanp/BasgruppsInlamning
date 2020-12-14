@@ -53,9 +53,7 @@ namespace BasgruppsInlamning
 
         }
 
-  
-
-
+ 
 
         public void Describe()
         {
