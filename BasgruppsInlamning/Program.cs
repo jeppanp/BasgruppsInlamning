@@ -52,7 +52,7 @@ namespace BasgruppsInlamning
 
                         case 4:
                             Console.Clear();
-                            //DeleteMember();
+                            DeleteMember();
                             break;
 
                         case 5:
@@ -186,6 +186,17 @@ namespace BasgruppsInlamning
             string reasonToPrograming = Console.ReadLine();
 
             groupList.Add(new Human(name, age, birthday, favouriteFood, favouriteBand, favouriteMovie, loves, hates, zodiac, superPower, reasonToPrograming));
+        }
+        static void DeleteMember()
+        {
+
+            int choice;
+            Console.WriteLine("\nVem har slutat i klassen och bör såldes tas bort?\n");
+            IsShowingNamesWithNr();
+            choice = int.Parse(Console.ReadLine());
+            Console.WriteLine($"{groupList[choice - 1].Name} är nu borttagen");
+            groupList.RemoveAt(choice - 1);
+
         }
     }
 }
