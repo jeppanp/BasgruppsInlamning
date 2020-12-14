@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq.Expressions;
 using Microsoft.VisualBasic.FileIO;
 
@@ -10,11 +11,70 @@ namespace BasgruppsInlamning
         public static List<Human> groupList = new List<Human>();
         static void Main(string[] args)
         {
-          
+            Start();
         }
+        static void Start()
+        {
+            bool keepGoing = true;
+            AddMembersToList();
 
 
-        public bool LoggIn()
+            if (LoggIn())
+            {
+                do
+                {
+
+                    Console.WriteLine("\n-----Meny-----");
+                    Console.WriteLine("1. Visa Medlemmar");
+                    Console.WriteLine("2. Lära känna medlemmarna");
+                    Console.WriteLine("3. Lägg till en medlem");
+                    Console.WriteLine("4. Ta bort en medlem");
+                    Console.WriteLine("5. Ändra intressen");
+                    Console.WriteLine("6. Avsluta");
+
+                    bool choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
+                    switch (choice)        //TODO: Skapa metoder för samtliga alternativ. 
+                    {
+                        case 1:
+                            Console.Clear();
+                            ShowOnlyNames();
+                            break;
+
+                        case 2:
+                            Console.Clear();
+                            InformationOfMember();
+                            break;
+
+                        case 3:
+                            Console.Clear();
+                            AddMember();
+                            break;
+
+                        case 4:
+                            Console.Clear();
+                            DeleteMember();
+                            break;
+                          
+                        case 5:
+                            Console.Clear();
+                            ChangeInformation();
+                            break; 
+                        case 6:
+                            Console.WriteLine("På återseende!");
+                            keepGoing = false;
+                            break;
+
+                        default:
+                            Console.WriteLine("Felaktig input.");
+                            break;
+                    }
+
+                } while (keepGoing);
+            }
+
+        }
+   
+        static bool LoggIn()
         {
             string passWord = "Götebuggarna";
             int loggInTries = 2;
@@ -48,9 +108,6 @@ namespace BasgruppsInlamning
 
             return correctPassword;
         }
-
-
-
 
 
         static void AddMembersToList()
