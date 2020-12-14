@@ -47,18 +47,18 @@ namespace BasgruppsInlamning
 
                         case 3:
                             Console.Clear();
-                            //AddMember();
+                            AddMember();
                             break;
 
                         case 4:
                             Console.Clear();
                             //DeleteMember();
                             break;
-                          
+
                         case 5:
                             Console.Clear();
                             //ChangeInformation();
-                            break; 
+                            break;
                         case 6:
                             Console.WriteLine("På återseende!");
                             keepGoing = false;
@@ -73,7 +73,7 @@ namespace BasgruppsInlamning
             }
 
         }
-   
+
         static bool LoggIn()
         {
             string passWord = "Götebuggarna";
@@ -140,15 +140,14 @@ namespace BasgruppsInlamning
 
         {
             int counter = 0;
-            foreach(Human members in groupList)
+            foreach (Human members in groupList)
             {
                 Console.WriteLine($"{++counter}. {members.Name}");
-                
 
             }
         }
 
-        private static void InformationOfMember()
+        static void InformationOfMember()
         {
             Console.WriteLine("\nVem är du intresserad av att lära känna mer?\n");
             IsShowingNamesWithNr();
@@ -156,6 +155,37 @@ namespace BasgruppsInlamning
             Console.WriteLine($"du valde {groupList[choice - 1].Name}");
             Console.WriteLine("\n");
             groupList[choice - 1].Describe();
+        }
+
+
+        static void AddMember()
+        {
+
+            Console.WriteLine("\nFyll i nedanstående information kring personen du önskar lägga till");
+            Console.Write("Namn: ");
+            string name = Console.ReadLine();
+            Console.Write("Ålder: ");
+            bool ageInBool = int.TryParse(Console.ReadLine(), out int age);
+            Console.Write("Födelsedag: ");
+            string birthday = Console.ReadLine();
+            Console.Write("Favoritmat: ");
+            string favouriteFood = Console.ReadLine();
+            Console.Write("Favoritband: ");
+            string favouriteBand = Console.ReadLine();
+            Console.Write("Favoritfilm: ");
+            string favouriteMovie = Console.ReadLine();
+            Console.Write("Älskar: ");
+            string loves = Console.ReadLine();
+            Console.Write("Hatar: ");
+            string hates = Console.ReadLine();
+            Console.Write("Stjärntecken: ");
+            string zodiac = Console.ReadLine();
+            Console.Write("Superkraft: ");
+            string superPower = Console.ReadLine();
+            Console.Write("Varför vill du programmera:");
+            string reasonToPrograming = Console.ReadLine();
+
+            groupList.Add(new Human(name, age, birthday, favouriteFood, favouriteBand, favouriteMovie, loves, hates, zodiac, superPower, reasonToPrograming));
         }
     }
 }
