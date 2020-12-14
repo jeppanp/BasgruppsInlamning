@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq.Expressions;
+using System.Xml.Serialization;
 using Microsoft.VisualBasic.FileIO;
 
 namespace BasgruppsInlamning
@@ -33,7 +34,7 @@ namespace BasgruppsInlamning
                     Console.WriteLine("6. Avsluta");
 
                     bool choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
-                    switch (choice)        //TODO: Skapa metoder för samtliga alternativ. 
+                    switch (choice)        //TODO: felhantering på bokstav ist för nummer gällande case 2, 4, 5, 
                     {
                         case 1:
                             Console.Clear();
@@ -149,12 +150,26 @@ namespace BasgruppsInlamning
 
         static void InformationOfMember()
         {
+            bool choiceInBool;
+            bool keepGoing = true;
             Console.WriteLine("\nVem är du intresserad av att lära känna mer?\n");
             IsShowingNamesWithNr();
-            bool choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
-            Console.WriteLine($"du valde {groupList[choice - 1].Name}");
-            Console.WriteLine("\n");
-            groupList[choice - 1].Describe();
+            do
+            {
+                choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
+                if (choiceInBool && choice<=groupList.Count)
+                {
+                    Console.WriteLine($"du valde {groupList[choice - 1].Name}");
+                    Console.WriteLine("\n");
+                    groupList[choice - 1].Describe();
+                    keepGoing = false;
+                }
+                else
+                {
+                    Console.WriteLine("Var god mata in en siffa som syns i listan");
+                }
+
+            } while (keepGoing);
         }
 
 
