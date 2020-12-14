@@ -57,7 +57,7 @@ namespace BasgruppsInlamning
 
                         case 5:
                             Console.Clear();
-                            //ChangeInformation();
+                            ChangeInformation();
                             break;
                         case 6:
                             Console.WriteLine("På återseende!");
@@ -197,6 +197,75 @@ namespace BasgruppsInlamning
             Console.WriteLine($"{groupList[choice - 1].Name} är nu borttagen");
             groupList.RemoveAt(choice - 1);
 
+        }
+
+        private static void ChangeInformation()
+        {
+            Console.WriteLine("\nVem vill du ändra information kring? ");
+            IsShowingNamesWithNr();
+            bool choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
+            Console.Clear();
+            Console.WriteLine($"Du valde {groupList[choice - 1].Name}");
+            Console.WriteLine("Vad önskar du ändra?\nTryck enter om du inte önskar ändra något\n");
+            groupList[choice - 1].Change();
+            bool decisionInBool = int.TryParse(Console.ReadLine(), out int decision);
+            switch (decision)
+            {
+                case 1:
+                    Console.Write("Skriv in personens nya namn:  ");
+                    groupList[choice - 1].Name = Console.ReadLine();
+                    Console.WriteLine($"Personens nya namn: {groupList[choice - 1].Name} ");
+                    break;
+                case 2:
+                    Console.Write("Skriv in den nya ålderna: ");
+                    groupList[choice - 1].Age = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine($"{groupList[choice - 1].Name} är nu {groupList[choice - 1].Age} år ");
+                    break;
+                case 3:
+                    Console.Write("Skriv in den nya födelsedagen ");
+                    groupList[choice - 1].Birthday = Console.ReadLine();
+                    Console.WriteLine($"{groupList[choice - 1].Name} föddes: {groupList[choice - 1].Birthday} ");
+                    break;
+                case 4:
+                    Console.Write("Skriv in den nya favoritmaten: ");
+                    groupList[choice - 1].FavouriteFood = Console.ReadLine();
+                    Console.WriteLine($"{groupList[choice - 1].Name} tycker nu att {groupList[choice - 1].FavouriteFood} är den bästa maten");
+                    break;
+                case 5:
+                    Console.Write("Skriv in de nya favoritbandet alternativt den nya artisten: ");
+                    groupList[choice - 1].FavouriteBand = Console.ReadLine();
+                    Console.WriteLine($"{groupList[choice - 1].Name} anser att {groupList[choice - 1].FavouriteBand} är det bästa bandet/artisten");
+                    break;
+                case 6:
+                    Console.Write("Skriv in den nya favoritfilmen: ");
+                    groupList[choice - 1].FavouriteMovie = Console.ReadLine();
+                    Console.WriteLine($"{groupList[choice - 1].Name} hävdar numera att {groupList[choice - 1].FavouriteMovie} är den nr 1 movie in the world ");
+                    break;
+                case 7:
+                    Console.Write("Skriv in vad personen älskar: ");
+                    groupList[choice - 1].Loves = Console.ReadLine();
+                    Console.WriteLine($"{groupList[choice - 1].Name} älskar numera: {groupList[choice - 1].Loves}");
+                    break;
+                case 8:
+                    Console.Write("Skriv in vad personen hatar: ");
+                    groupList[choice - 1].Hates = Console.ReadLine();
+                    Console.WriteLine($"{groupList[choice - 1].Name} hatar numera: {groupList[choice - 1].Hates}");
+                    break;
+                case 9:
+                    Console.Write("Skriv in personens stjärntecken: ");
+                    groupList[choice - 1].Zodiac = Console.ReadLine();
+                    Console.WriteLine($"{ groupList[choice - 1].Name} är nu av stjärntecknet {groupList[choice - 1].Zodiac}");
+                    break;
+                case 10:
+                    Console.Write("Skriv in personens nya superkraft: ");
+                    groupList[choice - 1].SuperPower = Console.ReadLine();
+                    Console.WriteLine($"{ groupList[choice - 1].Name} har nu antagit superkraften:  {groupList[choice - 1].SuperPower}");
+                    break;
+
+                default:
+                    Console.WriteLine("Du ändrade inget");
+                    break;
+            }
         }
     }
 }
