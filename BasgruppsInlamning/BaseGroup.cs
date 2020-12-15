@@ -15,7 +15,7 @@ namespace BasgruppsInlamning
         private bool choiceInBool;
         private string userAnswer;
 
-       
+       //Menu is shown if user enter correct password
         public void Start()
         {
             runProgram = true;
@@ -77,6 +77,7 @@ namespace BasgruppsInlamning
 
         }
 
+        // What user first meets when running the program. 
         private bool IsPassWordCorrect()
         {
 
@@ -89,7 +90,7 @@ namespace BasgruppsInlamning
                 if (userAnswer == passWord)
                 {
                     correctPassword = true;
-                    loggInTries = -1;               // When password is correct the variabel change to -1 to end the loop. 
+                    loggInTries = -1;               // When password is correct the variabel change to -1 to end the loop. The user have 3 attempts. 
                     Console.Clear();
                 }
                 else if (loggInTries > 0)
@@ -144,7 +145,6 @@ namespace BasgruppsInlamning
             foreach (Human members in groupList)
             {
                 Console.WriteLine($"{++counter}. {members.Name}");
-
             }
         }
 
@@ -160,7 +160,7 @@ namespace BasgruppsInlamning
                 {
                     Console.WriteLine($"du valde {groupList[choice - 1].Name}");
                     Console.WriteLine("\n");
-                    groupList[choice - 1].Describe();
+                    groupList[choice - 1].Describe();                          //calls for a Method in class Human
                     keepGoing = false;
                 }
                 else
@@ -199,7 +199,7 @@ namespace BasgruppsInlamning
             Console.Write("Varför vill du programmera:");
             string reasonToPrograming = Console.ReadLine();
 
-            groupList.Add(new Human(name, age, birthday, favouriteFood, favouriteBand, favouriteMovie, loves, hates, zodiac, superPower, reasonToPrograming));
+            groupList.Add(new Human(name, age, birthday, favouriteFood, favouriteBand, favouriteMovie, loves, hates, zodiac, superPower, reasonToPrograming));  
         }
         private void DeleteMember()
         {
@@ -208,14 +208,14 @@ namespace BasgruppsInlamning
             ShowingNamesWithNr();
             do
             {
-                choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
+                choiceInBool = int.TryParse(Console.ReadLine(), out int choice);   //every "wrong" input is casts to "0". 
                 if (choiceInBool && choice <= groupList.Count && choice > 0)
                 {
-                    Console.WriteLine($" Är du säker på att du vill ta bort {groupList[choice - 1].Name}? ja/nej + enter");
+                    Console.WriteLine($" Är du säker på att du vill ta bort {groupList[choice - 1].Name}? ja/nej + enter");   //to make sure the user enter the number he/she wanted to.
                     userAnswer = Console.ReadLine();
                     if (userAnswer.Trim().ToLower() == "ja")
                     {
-                        Console.WriteLine($"{groupList[choice - 1].Name} är nu borttagen");
+                        Console.WriteLine($"{groupList[choice - 1].Name} är nu borttagen");                 
                         groupList.RemoveAt(choice - 1);
                         keepGoing = false;
                     }
@@ -232,12 +232,13 @@ namespace BasgruppsInlamning
                 }
                 else 
                 {
-                    Console.WriteLine("Var god mata in siffan som motsvarar personen du vill ta bort eller \"-1\" om du ångrat dig");
+                    Console.WriteLine("Var god mata in siffan som motsvarar personen du vill ta bort eller \"-1\" om du har ångrat dig");
 
                 }
             } while (keepGoing);
         }
 
+        //If a member wants to update their information about themselfs
         private void ChangeInformation()
         {
             keepGoing = true;
@@ -252,7 +253,7 @@ namespace BasgruppsInlamning
                     Console.Clear();
                     Console.WriteLine($"Du valde {groupList[choice - 1].Name}");
                     Console.WriteLine("Vad önskar du ändra?\nTryck enter om du inte önskar ändra något\n");
-                    groupList[choice - 1].Change();
+                    groupList[choice - 1].Change();                                                        // calling for a Method in class Human. Shows a list of what is possible to change.
                     bool decisionInBool = int.TryParse(Console.ReadLine(), out int decision);
                     switch (decision)
                     {
@@ -317,9 +318,9 @@ namespace BasgruppsInlamning
                 {
                     break;
                 }
-                else if (choice == 0 || choice > groupList.Count)
+                else 
                 {
-                    Console.WriteLine("Var god mata in siffan som motsvarar personen du vill ändra uppgifter kring\"-1\" om du ångrat dig");
+                    Console.WriteLine("Var god mata in siffan som motsvarar personen du vill ändra uppgifter kring eller \"-1\" om du ångrat dig");
 
                 }
 

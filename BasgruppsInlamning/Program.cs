@@ -12,8 +12,7 @@ namespace BasgruppsInlamning
         
         static void Main(string[] args)
         {
-            BaseGroup baseGroupProgram = new BaseGroup();
-
+            BaseGroup baseGroupProgram = new BaseGroup();     //instantiate an obejct from the class where I run the program. 
             baseGroupProgram.Start();
             
             //TODO: commita dokumentationen. 
