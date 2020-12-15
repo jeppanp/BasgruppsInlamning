@@ -8,25 +8,27 @@ namespace BasgruppsInlamning
     {
         private static List<Human> groupList = new List<Human>();
         private bool keepGoing;
-        private string passWord = "Götebuggarna";
+        private bool runProgram;
+        private string passWord = "Götebuggarna";   //I´m not using "Trim" or "ToLower"-method cause a password is and should be unique. 
         private int loggInTries = 2;
         private bool correctPassword;
         private bool choiceInBool;
+        private string userAnswer;
 
        
         public void Start()
         {
-            keepGoing = true;
+            runProgram = true;
             AddMembersToList();
 
-            if (LoggIn())
+            if (IsPassWordCorrect())
             {
                 do
                 {
 
                     Console.WriteLine("\n-----Meny-----");
-                    Console.WriteLine("1. Visa Medlemmar");
-                    Console.WriteLine("2. Lära känna medlemmarna");
+                    Console.WriteLine("1. Visa medlemmar");
+                    Console.WriteLine("2. Lär känna en medlem");
                     Console.WriteLine("3. Lägg till en medlem");
                     Console.WriteLine("4. Ta bort en medlem");
                     Console.WriteLine("5. Ändra intressen");
@@ -60,21 +62,22 @@ namespace BasgruppsInlamning
                             ChangeInformation();
                             break;
                         case 6:
-                            Console.WriteLine("På återseende!");
-                            keepGoing = false;
+                            Console.Clear();
+                            runProgram = IsGoodBye();       //Change the variabel runProgram to false to end the loop. 
                             break;
 
                         default:
+                            Console.Clear();
                             Console.WriteLine("Felaktig input.");
                             break;
                     }
 
-                } while (keepGoing);
+                } while (runProgram);
             }
 
         }
 
-        private bool LoggIn()
+        private bool IsPassWordCorrect()
         {
 
 
@@ -82,11 +85,11 @@ namespace BasgruppsInlamning
             do
             {
                 Console.WriteLine("Var god skriv in ditt lösenord");
-                string userAnswer = Console.ReadLine();
+                userAnswer = Console.ReadLine();
                 if (userAnswer == passWord)
                 {
                     correctPassword = true;
-                    loggInTries = -1;
+                    loggInTries = -1;               // When password is correct the variabel change to -1 to end the loop. 
                     Console.Clear();
                 }
                 else if (loggInTries > 0)
@@ -108,7 +111,7 @@ namespace BasgruppsInlamning
         }
 
 
-        private void AddMembersToList()
+        private void AddMembersToList()   
 
         {
 
@@ -124,7 +127,7 @@ namespace BasgruppsInlamning
 
         }
 
-        private void ShowOnlyNames()        //Var god se rapporten för val av Loop. 
+        private void ShowOnlyNames()        //for information about choice of loop, please read the report. 
         {
             for (int i = 0; i < groupList.Count - 1; i++)
             {
@@ -134,7 +137,7 @@ namespace BasgruppsInlamning
             Console.WriteLine(groupList[lastIndex].Name);
         }
 
-        private void IsShowingNamesWithNr()
+        private void ShowingNamesWithNr()
 
         {
             int counter = 0;
@@ -149,7 +152,7 @@ namespace BasgruppsInlamning
         {
             keepGoing = true;
             Console.WriteLine("\nVem är du intresserad av att lära känna mer?\n");
-            IsShowingNamesWithNr();
+            ShowingNamesWithNr();
             do
             {
                 choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
@@ -202,21 +205,32 @@ namespace BasgruppsInlamning
         {
             keepGoing = true;
             Console.WriteLine("\nVem har slutat i klassen och bör såldes tas bort?\nHar du ångrat dig och vill gå tillbaka så mata in \"-1\"\n");
-            IsShowingNamesWithNr();
+            ShowingNamesWithNr();
             do
             {
                 choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
                 if (choiceInBool && choice <= groupList.Count && choice > 0)
                 {
-                    Console.WriteLine($"{groupList[choice - 1].Name} är nu borttagen");
-                    groupList.RemoveAt(choice - 1);
-                    keepGoing = false;
+                    Console.WriteLine($" Är du säker på att du vill ta bort {groupList[choice - 1].Name}? ja/nej + enter");
+                    userAnswer = Console.ReadLine();
+                    if (userAnswer.Trim().ToLower() == "ja")
+                    {
+                        Console.WriteLine($"{groupList[choice - 1].Name} är nu borttagen");
+                        groupList.RemoveAt(choice - 1);
+                        keepGoing = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{groupList[choice - 1].Name} är fortsatt delaktig i gruppen :)");
+                        break;
+                    }
+
                 }
                 else if (choice == -1)
                 {
                     break;
                 }
-                else if (choice == 0 || choice > groupList.Count)
+                else 
                 {
                     Console.WriteLine("Var god mata in siffan som motsvarar personen du vill ta bort eller \"-1\" om du ångrat dig");
 
@@ -229,7 +243,7 @@ namespace BasgruppsInlamning
             keepGoing = true;
 
             Console.WriteLine("\nVem vill du ändra information kring?\nHar du ångrat dig och vill gå tillbaka så mata in \"-1\"\n");
-            IsShowingNamesWithNr();
+            ShowingNamesWithNr();
             do
             {
                 choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
@@ -310,6 +324,12 @@ namespace BasgruppsInlamning
                 }
 
             } while (keepGoing);
+        }
+
+        private bool IsGoodBye()
+        {
+            Console.WriteLine("På återseende!");
+            return keepGoing = false;
         }
     }
 }
