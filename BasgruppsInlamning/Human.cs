@@ -57,7 +57,7 @@ namespace BasgruppsInlamning
         public override string ToString()
         {
             return $"{name}";
-        }
+        } 
 
         public void Describe()
         {
