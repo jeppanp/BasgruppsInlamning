@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Cache;
 using System.Text;
 using System.Windows.Markup;
+using System.Xml.Serialization;
 
 namespace BasgruppsInlamning
 {
@@ -53,7 +54,10 @@ namespace BasgruppsInlamning
 
         }
 
- 
+        public override string ToString()
+        {
+            return $"{name}";
+        }
 
         public void Describe()
         {
@@ -78,7 +82,7 @@ namespace BasgruppsInlamning
             Console.WriteLine($"3. Födelsedagsdag");
             Console.WriteLine($"4. Favoritmat");
             Console.WriteLine($"5. Favoritband");
-            Console.WriteLine($"6. Favoritband");
+            Console.WriteLine($"6. Favoritfilm");
             Console.WriteLine($"7. Älskar");
             Console.WriteLine($"8. Hatar");
             Console.WriteLine($"9. Stjärntecken");

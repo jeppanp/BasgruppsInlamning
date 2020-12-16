@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BasgruppsInlamning
 {
-    class BaseGroup
+    class BaseGroupLogic
     {
         private static List<Human> groupList = new List<Human>();
         private bool keepGoing;
@@ -14,16 +14,26 @@ namespace BasgruppsInlamning
         private bool correctPassword;
         private bool choiceInBool;
         private string userAnswer;
+        private int choice;
+        public int PersonIndex { get => choice - 1;}
+        internal Human SelectedPerson { get => groupList[PersonIndex];}
 
-       //Menu is shown if user enter correct password
-        public void Start()
+        
+        public void Run()
+        {
+            AddMembersToList();
+            Menu();
+        }
+
+
+      
+        public void Menu()
         {
             runProgram = true;
-            AddMembersToList();
 
-            if (IsPassWordCorrect())
+            if (IsPassWordCorrect())     //Menu is shown if user enter correct password
             {
-                do
+                while (runProgram)
                 {
 
                     Console.WriteLine("\n-----Meny-----");
@@ -34,7 +44,7 @@ namespace BasgruppsInlamning
                     Console.WriteLine("5. Ändra intressen");
                     Console.WriteLine("6. Avsluta");
 
-                    choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
+                    choiceInBool = int.TryParse(Console.ReadLine(), out choice);
                     switch (choice)
                     {
                         case 1:
@@ -72,7 +82,7 @@ namespace BasgruppsInlamning
                             break;
                     }
 
-                } while (runProgram);
+                }
             }
 
         }
@@ -83,14 +93,14 @@ namespace BasgruppsInlamning
 
 
             Console.WriteLine("Välkommen till programmet Basgruppsinformation");
-            do
+            while (loggInTries >= 0)   
             {
                 Console.WriteLine("Var god skriv in ditt lösenord");
                 userAnswer = Console.ReadLine();
                 if (userAnswer == passWord)
                 {
                     correctPassword = true;
-                    loggInTries = -1;               // When password is correct the variabel change to -1 to end the loop. The user have 3 attempts. 
+                    loggInTries = -1;               // When password is correct the variabel change to 0 to end the loop. The user have 3 attempts. 
                     Console.Clear();
                 }
                 else if (loggInTries > 0)
@@ -102,17 +112,17 @@ namespace BasgruppsInlamning
                 else
                 {
                     Console.WriteLine("Du har uppgett fel lösenord för många gånger. Basgruppen \"Götebuggarna\" kommer nu hemsöka dig. Du är förvisad ifrån min konsol.");
-                    correctPassword = false;
+                    correctPassword = false;   
                     break;
 
                 }
-            } while (loggInTries >= 0);
+            } 
 
             return correctPassword;
         }
 
 
-        private void AddMembersToList()   
+        private void AddMembersToList()
 
         {
 
@@ -132,43 +142,54 @@ namespace BasgruppsInlamning
         {
             for (int i = 0; i < groupList.Count - 1; i++)
             {
-                Console.Write(groupList[i].Name + ",");
+                Console.Write(groupList[i] + ",");
             }
             int lastIndex = groupList.Count - 1;
-            Console.WriteLine(groupList[lastIndex].Name);
+            Console.WriteLine(groupList[lastIndex]);
         }
 
         private void ShowingNamesWithNr()
 
         {
             int counter = 0;
-            foreach (Human members in groupList)
+            foreach (Human person in groupList)
             {
-                Console.WriteLine($"{++counter}. {members.Name}");
+                Console.WriteLine($"{++counter}. {person}");
             }
         }
 
         private void InformationOfMember()
         {
             keepGoing = true;
-            Console.WriteLine("\nVem är du intresserad av att lära känna mer?\n");
-            ShowingNamesWithNr();
-            do
+            while (keepGoing)
             {
-                choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
+                Console.WriteLine("\nVem är du intresserad av att lära känna mer?\n");
+                ShowingNamesWithNr();
+
+
+                choiceInBool = int.TryParse(Console.ReadLine(), out choice);
+
                 if (choiceInBool && choice <= groupList.Count && choice > 0)
                 {
-                    Console.WriteLine($"du valde {groupList[choice - 1].Name}");
-                    Console.WriteLine("\n");
-                    groupList[choice - 1].Describe();                          //calls for a Method in class Human
-                    keepGoing = false;
+                   
+                    Console.WriteLine($"du valde {SelectedPerson}\n");
+                    SelectedPerson.Describe();                             //calls for a Method in Class Human
+                    Console.WriteLine("\nVill du fortsätta söka information om någon medlem? ja/nej");
+                    userAnswer = Console.ReadLine();
+                    if (userAnswer.Trim().ToLower() == "ja")
+                    {
+                        keepGoing = true;
+                    }
+                    else
+                    {
+                        keepGoing = false;
+                    }
                 }
                 else
                 {
                     Console.WriteLine("Var god mata in en siffa som syns i listan");
                 }
-
-            } while (keepGoing);
+            } 
         }
 
 
@@ -199,29 +220,30 @@ namespace BasgruppsInlamning
             Console.Write("Varför vill du programmera:");
             string reasonToPrograming = Console.ReadLine();
 
-            groupList.Add(new Human(name, age, birthday, favouriteFood, favouriteBand, favouriteMovie, loves, hates, zodiac, superPower, reasonToPrograming));  
+            groupList.Add(new Human(name, age, birthday, favouriteFood, favouriteBand, favouriteMovie, loves, hates, zodiac, superPower, reasonToPrograming));
         }
         private void DeleteMember()
         {
             keepGoing = true;
             Console.WriteLine("\nVem har slutat i klassen och bör såldes tas bort?\nHar du ångrat dig och vill gå tillbaka så mata in \"-1\"\n");
             ShowingNamesWithNr();
-            do
+            while (keepGoing) 
             {
-                choiceInBool = int.TryParse(Console.ReadLine(), out int choice);   //every "wrong" input is casts to "0". 
+                choiceInBool = int.TryParse(Console.ReadLine(), out choice);   //every "wrong" input is casts to "0". 
                 if (choiceInBool && choice <= groupList.Count && choice > 0)
                 {
-                    Console.WriteLine($" Är du säker på att du vill ta bort {groupList[choice - 1].Name}? ja/nej + enter");   //to make sure the user enter the number he/she wanted to.
+        
+                    Console.WriteLine($" Är du säker på att du vill ta bort {SelectedPerson}? ja/nej + enter");   //to make sure the user enter the number he/she wanted to.
                     userAnswer = Console.ReadLine();
                     if (userAnswer.Trim().ToLower() == "ja")
                     {
-                        Console.WriteLine($"{groupList[choice - 1].Name} är nu borttagen");                 
-                        groupList.RemoveAt(choice - 1);
+                        Console.WriteLine($"{SelectedPerson} är nu borttagen");
+                        groupList.RemoveAt(PersonIndex);
                         keepGoing = false;
                     }
                     else
                     {
-                        Console.WriteLine($"{groupList[choice - 1].Name} är fortsatt delaktig i gruppen :)");
+                        Console.WriteLine($"{SelectedPerson} är fortsatt delaktig i gruppen :)");
                         break;
                     }
 
@@ -230,12 +252,12 @@ namespace BasgruppsInlamning
                 {
                     break;
                 }
-                else 
+                else
                 {
                     Console.WriteLine("Var god mata in siffan som motsvarar personen du vill ta bort eller \"-1\" om du har ångrat dig");
 
                 }
-            } while (keepGoing);
+            } 
         }
 
         //If a member wants to update their information about themselfs
@@ -245,67 +267,68 @@ namespace BasgruppsInlamning
 
             Console.WriteLine("\nVem vill du ändra information kring?\nHar du ångrat dig och vill gå tillbaka så mata in \"-1\"\n");
             ShowingNamesWithNr();
-            do
+
+            while (keepGoing)
             {
-                choiceInBool = int.TryParse(Console.ReadLine(), out int choice);
+                choiceInBool = int.TryParse(Console.ReadLine(), out choice);
                 if (choiceInBool && choice <= groupList.Count && choice > 0)
                 {
                     Console.Clear();
-                    Console.WriteLine($"Du valde {groupList[choice - 1].Name}");
+                    Console.WriteLine($"Du valde {SelectedPerson}");
                     Console.WriteLine("Vad önskar du ändra?\nTryck enter om du inte önskar ändra något\n");
-                    groupList[choice - 1].Change();                                                        // calling for a Method in class Human. Shows a list of what is possible to change.
-                    bool decisionInBool = int.TryParse(Console.ReadLine(), out int decision);
-                    switch (decision)
+                    SelectedPerson.Change();                                                        // calling for a Method in class Human. Shows a list of what is possible to change.
+                    choiceInBool = int.TryParse(Console.ReadLine(), out int choice1);
+                    switch (choice1)
                     {
                         case 1:
                             Console.Write("Skriv in personens nya namn:  ");
-                            groupList[choice - 1].Name = Console.ReadLine();
-                            Console.WriteLine($"Personens nya namn: {groupList[choice - 1].Name} ");
+                            SelectedPerson.Name = Console.ReadLine();
+                            Console.WriteLine($"Personens nya namn: {SelectedPerson} ");
                             break;
                         case 2:
                             Console.Write("Skriv in den nya ålderna: ");
-                            groupList[choice - 1].Age = Convert.ToInt32(Console.ReadLine());
-                            Console.WriteLine($"{groupList[choice - 1].Name} är nu {groupList[choice - 1].Age} år ");
+                            SelectedPerson.Age = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine($"{SelectedPerson} är nu {SelectedPerson.Age} år ");
                             break;
                         case 3:
                             Console.Write("Skriv in den nya födelsedagen ");
-                            groupList[choice - 1].Birthday = Console.ReadLine();
-                            Console.WriteLine($"{groupList[choice - 1].Name} föddes: {groupList[choice - 1].Birthday} ");
+                            SelectedPerson.Birthday = Console.ReadLine();
+                            Console.WriteLine($"{SelectedPerson} föddes: {SelectedPerson.Birthday} ");
                             break;
                         case 4:
                             Console.Write("Skriv in den nya favoritmaten: ");
-                            groupList[choice - 1].FavouriteFood = Console.ReadLine();
-                            Console.WriteLine($"{groupList[choice - 1].Name} tycker nu att {groupList[choice - 1].FavouriteFood} är den bästa maten");
+                            SelectedPerson.FavouriteFood = Console.ReadLine();
+                            Console.WriteLine($"{SelectedPerson} tycker nu att {SelectedPerson.FavouriteFood} är den bästa maten");
                             break;
                         case 5:
                             Console.Write("Skriv in de nya favoritbandet alternativt den nya artisten: ");
-                            groupList[choice - 1].FavouriteBand = Console.ReadLine();
-                            Console.WriteLine($"{groupList[choice - 1].Name} anser att {groupList[choice - 1].FavouriteBand} är det bästa bandet/artisten");
+                            SelectedPerson.FavouriteBand = Console.ReadLine();
+                            Console.WriteLine($"{SelectedPerson} anser att {SelectedPerson.FavouriteBand} är det bästa bandet/artisten");
                             break;
                         case 6:
                             Console.Write("Skriv in den nya favoritfilmen: ");
-                            groupList[choice - 1].FavouriteMovie = Console.ReadLine();
-                            Console.WriteLine($"{groupList[choice - 1].Name} hävdar numera att {groupList[choice - 1].FavouriteMovie} är den nr 1 movie in the world ");
+                            SelectedPerson.FavouriteMovie = Console.ReadLine();
+                            Console.WriteLine($"{SelectedPerson} hävdar numera att {SelectedPerson.FavouriteMovie} är den nr 1 movie in the world ");
                             break;
                         case 7:
                             Console.Write("Skriv in vad personen älskar: ");
-                            groupList[choice - 1].Loves = Console.ReadLine();
-                            Console.WriteLine($"{groupList[choice - 1].Name} älskar numera: {groupList[choice - 1].Loves}");
+                            SelectedPerson.Loves = Console.ReadLine();
+                            Console.WriteLine($"{SelectedPerson} älskar numera: {SelectedPerson.Loves}");
                             break;
                         case 8:
                             Console.Write("Skriv in vad personen hatar: ");
-                            groupList[choice - 1].Hates = Console.ReadLine();
-                            Console.WriteLine($"{groupList[choice - 1].Name} hatar numera: {groupList[choice - 1].Hates}");
+                            SelectedPerson.Hates = Console.ReadLine();
+                            Console.WriteLine($"{SelectedPerson} hatar numera: {SelectedPerson.Hates}");
                             break;
                         case 9:
                             Console.Write("Skriv in personens stjärntecken: ");
-                            groupList[choice - 1].Zodiac = Console.ReadLine();
-                            Console.WriteLine($"{ groupList[choice - 1].Name} är nu av stjärntecknet {groupList[choice - 1].Zodiac}");
+                            SelectedPerson.Zodiac = Console.ReadLine();
+                            Console.WriteLine($"{ SelectedPerson} är nu av stjärntecknet {SelectedPerson.Zodiac}");
                             break;
                         case 10:
                             Console.Write("Skriv in personens nya superkraft: ");
-                            groupList[choice - 1].SuperPower = Console.ReadLine();
-                            Console.WriteLine($"{ groupList[choice - 1].Name} har nu antagit superkraften:  {groupList[choice - 1].SuperPower}");
+                            SelectedPerson.SuperPower = Console.ReadLine();
+                            Console.WriteLine($"{ SelectedPerson} har nu antagit superkraften:  {SelectedPerson.SuperPower}");
                             break;
 
                         default:
@@ -318,13 +341,13 @@ namespace BasgruppsInlamning
                 {
                     break;
                 }
-                else 
+                else
                 {
                     Console.WriteLine("Var god mata in siffan som motsvarar personen du vill ändra uppgifter kring eller \"-1\" om du ångrat dig");
 
                 }
 
-            } while (keepGoing);
+            } 
         }
 
         private bool IsGoodBye()
