@@ -8,26 +8,28 @@ namespace BasgruppsInlamning
     {
         private static List<Human> groupList = new List<Human>();
         private bool keepGoing;
-        private bool runProgram;
-        private string passWord = "Götebuggarna";   //I´m not using "Trim" or "ToLower"-method cause a password is and should be unique. 
-        private int loggInTries = 2;
+        private bool runProgram; 
         private bool correctPassword;
         private bool choiceInBool;
         private string userAnswer;
         private int choice;
-        public int PersonIndex { get => choice - 1;}
-        internal Human SelectedPerson { get => groupList[PersonIndex];}
-
+        private int loggInTries = 2;
+        private int personIndex { get => choice - 1;}
+        private string passWord { get => "Götebuggarna"; }
+        internal Human selectedPerson { get => groupList[personIndex];}    // Fråga till dig Robin. därav byte av språk. Vad innebär Internal? De kom upp när jag körde kortkammando
         
+        
+
         public void Run()
         {
             AddMembersToList();
             Menu();
+           
         }
 
 
       
-        public void Menu()
+        private void Menu()
         {
             runProgram = true;
 
@@ -100,7 +102,7 @@ namespace BasgruppsInlamning
                 if (userAnswer == passWord)
                 {
                     correctPassword = true;
-                    loggInTries = -1;               // When password is correct the variabel change to 0 to end the loop. The user have 3 attempts. 
+                    loggInTries = -1;               // When password is correct the variabel change to -1 to end the loop. The user have 3 attempts. 
                     Console.Clear();
                 }
                 else if (loggInTries > 0)
@@ -172,8 +174,8 @@ namespace BasgruppsInlamning
                 if (choiceInBool && choice <= groupList.Count && choice > 0)
                 {
                    
-                    Console.WriteLine($"du valde {SelectedPerson}\n");
-                    SelectedPerson.Describe();                             //calls for a Method in Class Human
+                    Console.WriteLine($"du valde {selectedPerson}\n");
+                    selectedPerson.Describe();                             //calls for a Method in Class Human
                     Console.WriteLine("\nVill du fortsätta söka information om någon medlem? ja/nej");
                     userAnswer = Console.ReadLine();
                     if (userAnswer.Trim().ToLower() == "ja")
@@ -233,17 +235,17 @@ namespace BasgruppsInlamning
                 if (choiceInBool && choice <= groupList.Count && choice > 0)
                 {
         
-                    Console.WriteLine($" Är du säker på att du vill ta bort {SelectedPerson}? ja/nej + enter");   //to make sure the user enter the number he/she wanted to.
+                    Console.WriteLine($" Är du säker på att du vill ta bort {selectedPerson}? ja/nej + enter");   //to make sure the user enter the number he/she wanted to.
                     userAnswer = Console.ReadLine();
                     if (userAnswer.Trim().ToLower() == "ja")
                     {
-                        Console.WriteLine($"{SelectedPerson} är nu borttagen");
-                        groupList.RemoveAt(PersonIndex);
+                        Console.WriteLine($"{selectedPerson} är nu borttagen");
+                        groupList.RemoveAt(personIndex);
                         keepGoing = false;
                     }
                     else
                     {
-                        Console.WriteLine($"{SelectedPerson} är fortsatt delaktig i gruppen :)");
+                        Console.WriteLine($"{selectedPerson} är fortsatt delaktig i gruppen :)");
                         break;
                     }
 
@@ -274,61 +276,61 @@ namespace BasgruppsInlamning
                 if (choiceInBool && choice <= groupList.Count && choice > 0)
                 {
                     Console.Clear();
-                    Console.WriteLine($"Du valde {SelectedPerson}");
+                    Console.WriteLine($"Du valde {selectedPerson}");
                     Console.WriteLine("Vad önskar du ändra?\nTryck enter om du inte önskar ändra något\n");
-                    SelectedPerson.Change();                                                        // calling for a Method in class Human. Shows a list of what is possible to change.
+                    selectedPerson.Change();                                                        // calling for a Method in class Human. Shows a list of what is possible to change.
                     choiceInBool = int.TryParse(Console.ReadLine(), out int choice1);
                     switch (choice1)
                     {
                         case 1:
                             Console.Write("Skriv in personens nya namn:  ");
-                            SelectedPerson.Name = Console.ReadLine();
-                            Console.WriteLine($"Personens nya namn: {SelectedPerson} ");
+                            selectedPerson.Name = Console.ReadLine();
+                            Console.WriteLine($"Personens nya namn: {selectedPerson} ");
                             break;
                         case 2:
                             Console.Write("Skriv in den nya ålderna: ");
-                            SelectedPerson.Age = Convert.ToInt32(Console.ReadLine());
-                            Console.WriteLine($"{SelectedPerson} är nu {SelectedPerson.Age} år ");
+                            selectedPerson.Age = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine($"{selectedPerson} är nu {selectedPerson.Age} år ");
                             break;
                         case 3:
                             Console.Write("Skriv in den nya födelsedagen ");
-                            SelectedPerson.Birthday = Console.ReadLine();
-                            Console.WriteLine($"{SelectedPerson} föddes: {SelectedPerson.Birthday} ");
+                            selectedPerson.Birthday = Console.ReadLine();
+                            Console.WriteLine($"{selectedPerson} föddes: {selectedPerson.Birthday} ");
                             break;
                         case 4:
                             Console.Write("Skriv in den nya favoritmaten: ");
-                            SelectedPerson.FavouriteFood = Console.ReadLine();
-                            Console.WriteLine($"{SelectedPerson} tycker nu att {SelectedPerson.FavouriteFood} är den bästa maten");
+                            selectedPerson.FavouriteFood = Console.ReadLine();
+                            Console.WriteLine($"{selectedPerson} tycker nu att {selectedPerson.FavouriteFood} är den bästa maten");
                             break;
                         case 5:
                             Console.Write("Skriv in de nya favoritbandet alternativt den nya artisten: ");
-                            SelectedPerson.FavouriteBand = Console.ReadLine();
-                            Console.WriteLine($"{SelectedPerson} anser att {SelectedPerson.FavouriteBand} är det bästa bandet/artisten");
+                            selectedPerson.FavouriteBand = Console.ReadLine();
+                            Console.WriteLine($"{selectedPerson} anser att {selectedPerson.FavouriteBand} är det bästa bandet/artisten");
                             break;
                         case 6:
                             Console.Write("Skriv in den nya favoritfilmen: ");
-                            SelectedPerson.FavouriteMovie = Console.ReadLine();
-                            Console.WriteLine($"{SelectedPerson} hävdar numera att {SelectedPerson.FavouriteMovie} är den nr 1 movie in the world ");
+                            selectedPerson.FavouriteMovie = Console.ReadLine();
+                            Console.WriteLine($"{selectedPerson} hävdar numera att {selectedPerson.FavouriteMovie} är den nr 1 movie in the world ");
                             break;
                         case 7:
                             Console.Write("Skriv in vad personen älskar: ");
-                            SelectedPerson.Loves = Console.ReadLine();
-                            Console.WriteLine($"{SelectedPerson} älskar numera: {SelectedPerson.Loves}");
+                            selectedPerson.Loves = Console.ReadLine();
+                            Console.WriteLine($"{selectedPerson} älskar numera: {selectedPerson.Loves}");
                             break;
                         case 8:
                             Console.Write("Skriv in vad personen hatar: ");
-                            SelectedPerson.Hates = Console.ReadLine();
-                            Console.WriteLine($"{SelectedPerson} hatar numera: {SelectedPerson.Hates}");
+                            selectedPerson.Hates = Console.ReadLine();
+                            Console.WriteLine($"{selectedPerson} hatar numera: {selectedPerson.Hates}");
                             break;
                         case 9:
                             Console.Write("Skriv in personens stjärntecken: ");
-                            SelectedPerson.Zodiac = Console.ReadLine();
-                            Console.WriteLine($"{ SelectedPerson} är nu av stjärntecknet {SelectedPerson.Zodiac}");
+                            selectedPerson.Zodiac = Console.ReadLine();
+                            Console.WriteLine($"{ selectedPerson} är nu av stjärntecknet {selectedPerson.Zodiac}");
                             break;
                         case 10:
                             Console.Write("Skriv in personens nya superkraft: ");
-                            SelectedPerson.SuperPower = Console.ReadLine();
-                            Console.WriteLine($"{ SelectedPerson} har nu antagit superkraften:  {SelectedPerson.SuperPower}");
+                            selectedPerson.SuperPower = Console.ReadLine();
+                            Console.WriteLine($"{ selectedPerson} har nu antagit superkraften:  {selectedPerson.SuperPower}");
                             break;
 
                         default:

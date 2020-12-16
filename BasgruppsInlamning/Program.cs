@@ -12,12 +12,8 @@ namespace BasgruppsInlamning
         
         static void Main(string[] args)
         {
-            BaseGroupLogic baseGroupLogic = new BaseGroupLogic();     //instantiate an obejct from the class where I run the program. 
+            BaseGroupLogic baseGroupLogic = new BaseGroupLogic();           //instantiate an object from the class where I run the program. 
             baseGroupLogic.Run();
-
-            
-            //TODO: commita dokumentationen. 
-
         }
 
 
